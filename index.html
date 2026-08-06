@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <meta charset="UTF-8">
+  <title>Not in Use</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:title" content="Site not in use.">
+  <meta property="og:description" content="Working on stuff.">
+  <meta property="og:url" content="https://collapseproject.uk">
+  <meta name="theme-color" content="#a855f7">
+</head>
+<!-- Call this shit vibecoded and ill touch you -->
+<body>
+  <main class="container">
+
+    <h1 class="title">Site Temporarily out of use</h1>
+
+    <p>
+      This site has been taken out of use while I work on things.
+    </p>
+    
+    <p> 
+      For now this is it, just a dead weight on Cloudflare, as usual.
+    </p>
+
+    <p>
+      If you want to hear more about what I do, you can contact me on my email: vas@collapseproject.uk
+    </p>
+
+    <a href="https://combinedarmsbattalion.com" class="button" style="display:inline-block; text-decoration:none; margin-top:0.6rem; padding:0.7rem 1.5rem;">
+      Explore my current project
+    </a>
+    
+
+
+  </main> 
+  <script>
+
+function initParallax() {
+  const root = document.documentElement;
+
+  window.addEventListener("mousemove", (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+    root.style.setProperty("--px", x.toFixed(3));
+    root.style.setProperty("--py", y.toFixed(3));
+  });
+}
+
+initParallax();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  color: black;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: url("/bgd.jpg") center/cover no-repeat;
+
+  filter: blur(5px) brightness(0.7);
+  transform: scale(1.1) translate(calc(var(--px, 0) * -30px), calc(var(--py, 0) * -30px));
+  transition: transform 0.2s ease-out;
+
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+
+.container {
+  backdrop-filter: blur(30px);
+
+  padding: 2.5rem;
+  border-radius: 30px;
+  max-width: 800px;
+  text-align: center;
+  position: relative;
+  margin-top: 80px;
+
+  
+  border: 3px solid rgba(255, 255, 255, 0.1);
+
+  transform: translate(calc(var(--px, 0) * 12px), calc(var(--py, 0) * 12px));
+  transition: transform 0.15s ease-out;
+}
+
+.title {
+  font-size: 2.7rem;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  opacity: 0.95;
+}
+
+
+
+.button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+   border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+
+  backdrop-filter: blur(30px);
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: "Segoe UI", sans-serif;
+  line-height: 1.5;
+
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.button:hover {
+  transform: scale(1.08);
+}
+
+
+
