@@ -14,5 +14,5 @@ README.md
 .env*
 
 # Leftovers from the old placeholder page, not used by index.html
-bgd.jpg
-styles.css
+/bgd.jpg
+/styles.css
