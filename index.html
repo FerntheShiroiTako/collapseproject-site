@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Collapse: Rotector checks for Discord servers</title>
+<meta name="description" content="Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://collapseproject.uk/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Collapse">
+<meta property="og:title" content="Collapse: Rotector checks for Discord servers">
+<meta property="og:description" content="Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.">
+<meta property="og:url" content="https://collapseproject.uk/">
+<meta property="og:image" content="https://collapseproject.uk/assets/brand/collapse-banner.png">
+<meta property="og:image:width" content="1360">
+<meta property="og:image:height" content="480">
+<meta property="og:image:alt" content="The Collapse banner">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Collapse: Rotector checks for Discord servers">
+<meta name="twitter:description" content="Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.">
+<meta name="twitter:image" content="https://collapseproject.uk/assets/brand/collapse-banner.png">
+<meta name="theme-color" content="#1F3D3A">
+<link rel="icon" href="assets/brand/collapse-logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/collapse-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Noto+Sans:wght@400;500;600;700&display=swap">
+<script src="js/theme.js"></script>
+<link rel="stylesheet" href="css/styles.css">
+<script type="application/ld+json">
+[
+ {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Collapse",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Discord",
+  "url": "https://collapseproject.uk/",
+  "description": "Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.",
+  "image": "https://collapseproject.uk/assets/brand/collapse-logo.png"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "Can Collapse ban someone without a mod?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "No. Collapse has no automatic bans and no setting to turn them on."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Nothing happens when people join.",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Run /config and check that the Rayward key, mod role, mod channel and a sweep trigger are all set, then click Test & Finish to see what's failing. Members without a Bloxlink verification or a (@username) nickname tag are skipped."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "A mod pressed Ban and the member is still here.",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Check whether dry run is still on, and read the reply the mod got: Rotector may no longer flag the account, or may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "A member says their flag is wrong.",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Collapse repeats what Rotector's database says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing at rotector.com. If you've set an appeal link, their ban DM already pointed them to you."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "What if Rotector or Bloxlink is down?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Collapse keeps trying for about 15 minutes. After that, the members it couldn't check are posted as Unverified so your mods can look at them."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "What happens to my data if I remove Collapse?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. You can ask in the support server to have it deleted sooner."
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "Can Collapse see IP addresses?",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "No. Discord doesn't give bots IP addresses. Collapse spots ban evasion by matching Roblox accounts."
+    }
+   }
+  ]
+ }
+]
+</script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="brand" href="#home" aria-label="Collapse home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>collapse</a>
+      <nav class="links" aria-label="Main">
+        <span class="nav-pill" aria-hidden="true"></span>
+        <a href="#home" data-link="home">Home</a>
+        <a href="#docs" data-link="docs">Guide</a>
+        <a href="#team" data-link="team">Team</a>
+        <a href="#support" data-link="support">Support</a>
+      </nav>
+      <button class="icon-btn" type="button" id="theme-toggle" aria-label="Switch colour theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+      <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1554192461587288237&permissions=84996&integration_type=0&scope=bot+applications.commands">Add to Discord</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============================== HOME ============================== -->
+<div data-page="home" class="wrap">
+  <div class="hero">
+    <div class="hero-copy">
+      <h1 id="hero-title">Roblox screening that stays inside Discord.</h1>
+      <p class="lede fade-up" style="--d:.6s">Collapse checks each member's Roblox account against Rotector. It finds the account through Bloxlink or the username in their nickname, posts anything flagged to your moderation channel, and leaves the decision to a moderator.</p>
+      <div class="cta-row fade-up" style="--d:.75s">
+        <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1554192461587288237&amp;permissions=84996&amp;integration_type=0&amp;scope=bot+applications.commands">Add Collapse to your server <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="#docs">Read the guide</a>
+      </div>
+      <p class="hero-note fade-up" style="--d:.9s">Your moderators don't open another website. Every case and every decision stays in Discord.</p>
+    </div>
+
+    <figure class="preview fade-up" style="--d:.4s">
+      <img class="preview-shot" src="assets/case-preview.png" alt="A Collapse case in Discord: Case #8, Confirmed, for member WebbedInk (Roblox mrABC173), linked through Bloxlink, with Ban and Dismiss buttons." width="490" height="374" loading="eager">
+      <figcaption>A Confirmed case as it lands in the mod channel. It waits for a moderator to press Ban or Dismiss.</figcaption>
+    </figure>
+  </div>
+
+  <section class="section" data-reveal>
+    <header><h2>What happens when a member joins</h2></header>
+    <ol class="steps">
+      <li><h3>Find the member's Roblox account</h3><p>If they've verified through Bloxlink, Collapse uses that account. Otherwise it reads the Roblox username at the end of their nickname, written as <code>(@username)</code>.</p></li>
+      <li><h3>Check the account</h3><p>Collapse sends it to Rotector using your server's own Rayward key. It also checks whether Collapse already banned the same Roblox account here under another Discord account.</p></li>
+      <li><h3>Show it to a mod</h3><p>Anything flagged is posted in your mod channel with Ban and Dismiss buttons. Only your mod role can press them.</p></li>
+    </ol>
+  </section>
+
+  <section class="spec-section" data-reveal>
+    <h2>Built for Discord moderation</h2>
+    <p class="spec-lede">Every server brings its own Rayward key and, if it wants one, a Bloxlink key.</p>
+    <table class="spec">
+      <tbody>
+        <tr><th scope="row">Account lookup</th><td>Bloxlink verification when the server adds a Bloxlink key, otherwise the <code>(@username)</code> tag in the nickname.</td></tr>
+        <tr><th scope="row">Screening</th><td>Rotector flag data through the Rayward API, with batched lookups and retries that wait longer each time.</td></tr>
+        <tr><th scope="row">Ban evasion</th><td>Matches a member's Roblox account against the bans Collapse made in your server.</td></tr>
+        <tr><th scope="row">Review</th><td>Cases in a channel you choose, with Ban and Dismiss buttons that only the mod role can press.</td></tr>
+        <tr><th scope="row">Sweeps</th><td><code>/sweep start</code> checks every member. It carries on after a restart and stays inside Bloxlink's daily limit.</td></tr>
+        <tr><th scope="row">Records</th><td>A summary channel for sweeps, an optional forum with one thread per detection, and a CSV export from <code>/detections</code>.</td></tr>
+        <tr><th scope="row">Storage</th><td>SQLite, with API keys encrypted. Rotector's reasons are deleted after 24 hours.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="willwont" data-reveal>
+    <div>
+      <h2>Collapse will</h2>
+      <ul>
+        <li>Post every flagged account to your mod channel.</li>
+        <li>Check Rotector again when a mod presses Ban.</li>
+        <li>Retry failed lookups, then post the member as Unverified.</li>
+        <li>Delete Rotector's reasons after 24 hours.</li>
+        <li>Record each ban and the mod who approved it.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Collapse won't</h2>
+      <ul>
+        <li>Ban anyone unless a mod presses Ban.</li>
+        <li>Ban while dry run is on, which it is on every new server.</li>
+        <li>Call an unflagged account safe.</li>
+        <li>Keep Rotector's reasons past 24 hours.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="colours" data-reveal>
+    <h2>What a case's colour means</h2>
+    <p class="spec-lede">The stripe on the left of each case. Sand is the easiest to spot on Discord's dark theme, so it marks the most urgent.</p>
+    <ol class="stack">
+      <li class="sw-sand" style="--w:100%"><b>Sand</b><span>Confirmed flags and ban evasion</span><code>#E6DCC6</code></li>
+      <li class="sw-mint" style="--w:84%"><b>Mint</b><span>Flagged, waiting for a decision</span><code>#A8C3B0</code></li>
+      <li class="sw-sage" style="--w:68%"><b>Sage</b><span>Unverified</span><code>#52796F</code></li>
+      <li class="sw-umber" style="--w:52%"><b>Umber</b><span>Past offender</span><code>#3A2F2A</code></li>
+      <li class="sw-pine" style="--w:36%"><b>Pine</b><span>Resolved</span><code>#1F3D3A</code></li>
+    </ol>
+  </section>
+
+  <section class="closing-line" data-reveal>
+    <p>Add Collapse, run <code>/setup</code>, and paste your Rayward key. Nothing is banned until you turn off dry run.</p>
+    <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1554192461587288237&amp;permissions=84996&amp;integration_type=0&amp;scope=bot+applications.commands">Add to Discord <span class="arrow">→</span></a>
+  </section>
+</div>
+
+<!-- ============================== DOCS ============================== -->
+<div data-page="docs" class="wrap">
+  <div class="docs">
+    <nav class="toc" id="toc" aria-label="Documentation">
+      <span class="toc-marker" aria-hidden="true"></span>
+      <b>Start</b>
+      <a href="#docs-overview">What you need</a>
+      <a href="#docs-setup">Setting up</a>
+      <b>Using Collapse</b>
+      <a href="#docs-cases">Handling a case</a>
+      <a href="#docs-checks">How members are checked</a>
+      <a href="#docs-sweeps">Sweeps</a>
+      <a href="#docs-records">Lists and logs</a>
+      <b>Settings</b>
+      <a href="#docs-modes">Safety modes and ban DMs</a>
+      <a href="#docs-access">Who can do what</a>
+      <b>Reference</b>
+      <a href="#docs-commands">Commands</a>
+      <a href="#docs-faq">Questions</a>
+    </nav>
+
+    <article class="doc">
+      <div data-reveal>
+        <h1>Documentation and FAQ</h1>
+        <p class="lede">Collapse checks the Roblox account behind each member of your server against Rotector and posts the ones Rotector has flagged to your mod channel. Your mods decide what happens to each one.</p>
+      </div>
+
+      <section id="docs-overview" data-reveal>
+        <h2>What you need</h2>
+        <p>Before you start, get a Rayward API key by signing in at <a href="https://rayward.app/signin" target="_blank" rel="noopener">rayward.app</a>. Collapse uses it to look accounts up on Rotector, and each server uses its own key.</p>
+        <p>A Bloxlink server key is optional. You can create one on the <a href="https://blox.link/dashboard/developers" target="_blank" rel="noopener">Bloxlink developer dashboard</a>. With it, Collapse can use the Roblox account a member verified through Bloxlink. Without it, Collapse can only find accounts through nickname tags like <code>owl (@example_user)</code>.</p>
+        <p>You'll also want a role for the moderators who decide cases, and a channel where the cases should appear.</p>
+      </section>
+
+      <section id="docs-setup" data-reveal>
+        <h2>Setting up</h2>
+        <ol>
+          <li>Add Collapse to your server from the <a href="#support">Support page</a>.</li>
+          <li>Run <code>/setup</code>. This needs Manage Server, or your server's Master or Configurator role if it has set them.</li>
+          <li>Click Rayward Key and paste your key. If you have a Bloxlink key, add it with Bloxlink Key.</li>
+          <li>Choose the mod role and the mod channel.</li>
+          <li>Choose who can run sweeps. Pick a role in the panel, or add specific people under More Settings → Trigger Users, or both.</li>
+          <li>Click Test &amp; Finish. Collapse tries each key and checks that it can post in your channels, ban members, and sits high enough in the role list.</li>
+        </ol>
+        <p>Collapse starts checking members who join as soon as the key, mod role, mod channel and sweep trigger are set. Test &amp; Finish tells you whether anything will fail when it does.</p>
+        <div class="callout"><p>Discord only lets Collapse ban members whose highest role is below Collapse's own role. Drag its role above your members' roles in Server Settings → Roles.</p></div>
+        <p>More Settings also has a summary channel for sweep results, a forum channel to use as a detection log, and an appeal link for banned members. All three are optional. Run <code>/config</code> to open the same panel again later.</p>
+      </section>
+
+      <section id="docs-cases" data-reveal>
+        <h2>Handling a case</h2>
+        <p>Each flagged account is posted in your mod channel as a case, like the example on the home page. It shows the member, their Roblox account, Rotector's status, whether the account came from Bloxlink or a nickname tag, and Rotector's reasons when it gives any.</p>
+        <p>Only members with your mod role can press the buttons:</p>
+        <ul>
+          <li>Ban first looks the account up on Rotector again. If it's still flagged, Collapse sends the member the ban DM, if it's on, then bans them and records who approved it. If Rotector no longer flags the account, nobody is banned and the case closes. If Rotector can't be reached, nothing happens and the case stays open.</li>
+          <li>Dismiss closes the case and does nothing to the member.</li>
+        </ul>
+        <p>Either way the buttons are removed and the case is marked resolved, with the mod who decided it. While dry run is on, Ban records what would have happened. Nobody is banned and no DM is sent.</p>
+        <p>Rayward's terms don't allow its data to be kept for more than 24 hours, so after 24 hours Collapse removes the Details field (Rotector's reasons) from the case. The rest of the case stays.</p>
+        <h3>Case colours</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>Colour</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="chip"><i style="background:#E6DCC6"></i>Sand</span></td><td>Rotector Confirmed, or ban evasion</td></tr>
+            <tr><td><span class="chip"><i style="background:#A8C3B0"></i>Mint</span></td><td>Flagged by Rotector for any other reason and waiting for a decision</td></tr>
+            <tr><td><span class="chip"><i style="background:#52796F"></i>Sage</span></td><td>Unverified: Collapse couldn't finish the lookups, so check this member yourself</td></tr>
+            <tr><td><span class="chip"><i style="background:#3A2F2A"></i>Umber</span></td><td>Past offender, for information only</td></tr>
+            <tr><td><span class="chip"><i style="background:#1F3D3A"></i>Pine</span></td><td>Resolved</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="docs-checks" data-reveal>
+        <h2>How members are checked</h2>
+        <p>Collapse checks a member when they join, when a sweep reaches them, and when a mod runs <code>/check</code> on them.</p>
+        <p>First it finds their Roblox account. A Bloxlink verification is used if you've added a Bloxlink key and the member has one. If not, Collapse reads the <code>(@username)</code> tag at the end of their server nickname. A member with neither is skipped.</p>
+        <p>Next, if Collapse has already banned that Roblox account in your server under a different Discord account, the member goes straight to your mods as ban evasion. Bans made outside Collapse don't count here, because Collapse only knows about the bans it made.</p>
+        <p>Otherwise Collapse looks the account up on Rotector:</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Rotector says</th><th>Collapse does</th></tr></thead>
+          <tbody>
+            <tr><td>Unflagged</td><td>Nothing</td></tr>
+            <tr><td>Confirmed</td><td>Posts a case</td></tr>
+            <tr><td>Flagged, Mixed, Queued, Provisional, Redacted</td><td>Posts a case</td></tr>
+            <tr><td>Past Offender</td><td>Records it without posting anything, unless report only is on</td></tr>
+          </tbody>
+        </table></div>
+        <p>If a lookup fails or times out, Collapse tries again, leaving longer gaps each time. With the default settings that's five more attempts over about 15 minutes. If they all fail, the member is posted as Unverified.</p>
+      </section>
+
+      <section id="docs-sweeps" data-reveal>
+        <h2>Sweeps</h2>
+        <p>A sweep checks every member of your server, which is useful after setup or after Rotector adds new flags. Your sweep triggers start one with <code>/sweep start</code>.</p>
+        <p>Each server runs one sweep at a time. <code>/sweep status</code> shows how far it has got, <code>/sweep abort</code> stops it, and <code>/sweep resume</code> restarts one that was paused. If the bot restarts during a sweep, the sweep continues on its own afterwards.</p>
+        <p>Every Bloxlink key can make 2,000 lookups a day. A sweep stops short of that so that members who join later in the day can still be checked, and if it runs out it pauses until midnight UTC. Sweep notices like this one go to your summary channel, or the mod channel if you haven't set one. On big servers a sweep can take more than one day, and Collapse tells you at the start when it will.</p>
+        <p>When a sweep finishes, the summary goes to your summary channel (or the mod channel if you haven't set one), and by DM to whoever started it:</p>
+<pre>Sweep #3 complete · 1234 members, 14m07s
+Not flagged: 1120
+No linked account: 87
+Past offender: 4
+Sent to review: 21
+Unverified: 2</pre>
+        <p>Sweeps only open cases. Each ban still needs a mod to press Ban.</p>
+      </section>
+
+      <section id="docs-records" data-reveal>
+        <h2>Lists and logs</h2>
+        <p><code>/reviews</code> lists the cases that are still open, ten per page. <code>/detections</code> lists everything Collapse has ever detected in your server, resolved or not. You can get it as a CSV file to open in a spreadsheet, or as a list of Roblox usernames.</p>
+        <p>For a record that stays put, choose a forum channel as the detection log under <code>/config</code> → More Settings. Every detection gets its own thread there, and later decisions don't change it. The threads leave out Rotector's reasons, because Collapse can't go back and remove them after 24 hours. If the forum has tags, Detection Log Tags lets you pick one for each kind of detection.</p>
+      </section>
+
+      <section id="docs-modes" data-reveal>
+        <h2>Safety modes and ban DMs</h2>
+        <p>These switches are under <code>/config</code> → Safety Modes. Changes apply straight away.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Switch</th><th>Starts</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>Dry Run</td><td>On</td><td>Ban presses are recorded, and nobody is banned. Collapse asks you to confirm before turning it off.</td></tr>
+            <tr><td>Report Only</td><td>Off</td><td>Detections are posted as notices without buttons, and your mods act on them themselves.</td></tr>
+            <tr><td>Ban DM</td><td>On</td><td>Members get a DM just before they're banned.</td></tr>
+            <tr><td>DM Sweep Starter</td><td>On</td><td>Whoever started a sweep gets its summary by DM.</td></tr>
+          </tbody>
+        </table></div>
+        <p>The ban DM names the server, the member's Roblox account and its Rotector status, and says they can appeal the listing with Rotector. A ban for ban evasion gets a different DM that doesn't mention Rotector, because that ban comes from Collapse's own records. If a member has DMs closed, they're banned anyway.</p>
+        <p>To give members somewhere to appeal to you, add an appeal link under <code>/config</code> → More Settings → Appeal Link. It can be an appeals server invite such as <code>discord.gg/yourappeals</code>, or a form. The ban DM then ends with "You can appeal this ban here:" followed by your link. Clear the box to remove it.</p>
+      </section>
+
+      <section id="docs-access" data-reveal>
+        <h2>Who can do what</h2>
+        <div class="tbl"><table>
+          <thead><tr><th>Who</th><th>Can</th></tr></thead>
+          <tbody>
+            <tr><td>Manage Server</td><td>Change every setting</td></tr>
+            <tr><td>Master role</td><td>Change every setting, including the API keys and who holds these two roles</td></tr>
+            <tr><td>Configurator role</td><td>Change every setting except the API keys, which they can only see as set or not set</td></tr>
+            <tr><td>Mod role</td><td>Press Ban and Dismiss, and use <code>/check</code>, <code>/reviews</code>, <code>/detections</code> and <code>/sweep status</code></td></tr>
+            <tr><td>Sweep triggers</td><td>Use every <code>/sweep</code> command and <code>/check</code></td></tr>
+          </tbody>
+        </table></div>
+        <p>You set the Master and Configurator roles under <code>/config</code> → Access Control, which only Manage Server and the Master role can open. Holding either role is enough without Manage Server.</p>
+      </section>
+
+      <section id="docs-commands" data-reveal>
+        <h2>Commands</h2>
+        <div class="tbl"><table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>/setup</code>, <code>/config</code></td><td>Open the settings panel</td></tr>
+            <tr><td><code>/check @member</code></td><td>Check one member now</td></tr>
+            <tr><td><code>/sweep start</code></td><td>Check every member</td></tr>
+            <tr><td><code>/sweep status</code></td><td>Show progress of the current or last sweep</td></tr>
+            <tr><td><code>/sweep resume</code></td><td>Restart a paused sweep</td></tr>
+            <tr><td><code>/sweep abort</code></td><td>Stop the running sweep</td></tr>
+            <tr><td><code>/reviews</code></td><td>List open cases</td></tr>
+            <tr><td><code>/detections</code></td><td>Export every detection as a CSV or a username list</td></tr>
+            <tr><td><code>/help</code></td><td>Explain Collapse inside Discord</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="docs-faq" data-reveal>
+        <h2>Questions</h2>
+        <details><summary>Can Collapse ban someone without a mod?<span class="plus" aria-hidden="true"></span></summary><p>No. Collapse has no automatic bans and no setting to turn them on.</p></details>
+        <details><summary>Nothing happens when people join.<span class="plus" aria-hidden="true"></span></summary><p>Run <code>/config</code> and check that the Rayward key, mod role, mod channel and a sweep trigger are all set, then click Test &amp; Finish to see what's failing. Members without a Bloxlink verification or a <code>(@username)</code> nickname tag are skipped.</p></details>
+        <details><summary>A mod pressed Ban and the member is still here.<span class="plus" aria-hidden="true"></span></summary><p>Check whether dry run is still on, and read the reply the mod got: Rotector may no longer flag the account, or may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members.</p></details>
+        <details><summary>A member says their flag is wrong.<span class="plus" aria-hidden="true"></span></summary><p>Collapse repeats what Rotector's database says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing at <a href="https://rotector.com" target="_blank" rel="noopener">rotector.com</a>. If you've set an appeal link, their ban DM already pointed them to you.</p></details>
+        <details><summary>What if Rotector or Bloxlink is down?<span class="plus" aria-hidden="true"></span></summary><p>Collapse keeps trying for about 15 minutes. After that, the members it couldn't check are posted as Unverified so your mods can look at them.</p></details>
+        <details><summary>What happens to my data if I remove Collapse?<span class="plus" aria-hidden="true"></span></summary><p>Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. You can ask in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a> to have it deleted sooner.</p></details>
+        <details><summary>Can Collapse see IP addresses?<span class="plus" aria-hidden="true"></span></summary><p>No. Discord doesn't give bots IP addresses. Collapse spots ban evasion by matching Roblox accounts.</p></details>
+      </section>
+    </article>
+  </div>
+</div>
+
+<!-- ============================== TEAM ============================== -->
+<div data-page="team" class="wrap">
+  <div class="page-head" data-reveal><h2>Team</h2></div>
+  <ul class="credits" data-reveal>
+    <li><div class="duo"><img src="assets/team/fern.png" alt="Fern's profile picture" width="88" height="88" loading="lazy"></div><h3>Fern</h3><p>Founder and lead developer. Runs the hosting.</p><span class="handle">@FerntheShiroiTako</span></li>
+    <li><div class="duo"><img src="assets/team/zyxo.png" alt="Zyxo's profile picture" width="88" height="88" loading="lazy"></div><h3>Zyxo</h3><p>Security.</p><span class="handle">@Zyxoislost</span></li>
+    <li><div class="duo"><img src="assets/team/smara.png" alt="Smara's profile picture" width="88" height="88" loading="lazy"></div><h3>Smara</h3><p>Tests new builds for bugs.</p><span class="handle">@Smaratians_alt</span></li>
+    <li><div class="duo"><img src="assets/team/pando.png" alt="Pando's profile picture" width="88" height="88" loading="lazy"></div><h3>Pando</h3><p>Project management.</p><span class="handle">@GreatestComrade</span></li>
+  </ul>
+</div>
+
+<!-- ============================== SUPPORT ============================== -->
+<div data-page="support" class="wrap">
+  <div class="support">
+    <div class="page-head" data-reveal>
+      <h2>Add Collapse to your server</h2>
+      <p class="lede">You need Manage Server in the server you're adding it to.</p>
+    </div>
+    <ol class="support-steps" data-reveal>
+      <li>
+        <h3>Invite the bot</h3>
+        <p>Choose your server on Discord's invite page.</p>
+        <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1554192461587288237&amp;permissions=84996&amp;integration_type=0&amp;scope=bot+applications.commands" target="_blank" rel="noopener">Open the invite page <span class="arrow">→</span></a>
+        <div class="copyfield">
+          <input id="invite-url" readonly aria-label="Bot invite link" value="https://discord.com/oauth2/authorize?client_id=1554192461587288237&amp;permissions=84996&amp;integration_type=0&amp;scope=bot+applications.commands">
+          <button class="btn btn-ghost" type="button" data-copy="invite-url">Copy</button>
+        </div>
+      </li>
+      <li>
+        <h3>Run <code>/setup</code></h3>
+        <p>Paste your Rayward key, and a Bloxlink key if you have one. Then choose your mod role, your mod channel and who can run sweeps. The <a href="#docs-setup">setup guide</a> covers each option.</p>
+      </li>
+      <li>
+        <h3>Click Test &amp; Finish</h3>
+        <p>Collapse tries your keys and its own permissions, and tells you what to fix. Dry run stays on until you turn it off in <code>/config</code>.</p>
+      </li>
+    </ol>
+    <div class="help" data-reveal>
+      <h3>Help</h3>
+      <p>Ask questions, report bugs and read announcements in the support server. If you'd rather not handle API keys yourself, the team can enter your own keys for you. Every server needs its own Rayward key.</p>
+      <div class="copyfield">
+        <input id="support-url" readonly aria-label="Support server invite" value="https://discord.gg/7HytBQUggw">
+        <button class="btn btn-ghost" type="button" data-copy="support-url">Copy</button>
+      </div>
+      <p style="margin-top:14px"><a class="btn btn-ghost" href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">Join the support server <span class="arrow">→</span></a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== TERMS ============================== -->
+<div data-page="terms" class="wrap">
+  <article class="doc legal">
+    <div data-reveal>
+      <h2 class="page-title">Terms of service</h2>
+      <p class="lede">These terms apply to anyone who adds Collapse to a Discord server or uses it there. Last updated 29 September 2026.</p>
+    </div>
+
+    <section id="terms-service" data-reveal>
+      <h2>What Collapse is</h2>
+      <p>Collapse is a Discord bot run by the Collapse team (see the <a href="#team">Team page</a>). It finds the Roblox account linked to each member of a server and checks it against Rotector's flag data, which it gets through the Rayward API. It posts flagged accounts to the server's moderators, who decide what to do. Collapse never bans anyone unless a moderator presses Ban.</p>
+    </section>
+
+    <section id="terms-use" data-reveal>
+      <h2>Using Collapse</h2>
+      <p>If you add Collapse to a server, you're responsible for how it's used there, including every ban your moderators approve.</p>
+      <ul>
+        <li>A Rotector flag is a safety signal, not proof that someone did something wrong. Your moderators should look at each case and use their own judgement before acting on it.</li>
+        <li>Don't describe an account Rotector hasn't flagged as safe. It only means nothing has been found about it yet.</li>
+        <li>Don't use Collapse or anything it shows you to harass, threaten or single out anyone.</li>
+        <li>Follow Discord's and Roblox's terms, and the law where you and your members are.</li>
+      </ul>
+    </section>
+
+    <section id="terms-data" data-reveal>
+      <h2>Rotector data</h2>
+      <p>Rotector's data comes from Rotector through Rayward. The Collapse team doesn't control it and can't change or remove a listing. It can be wrong or out of date. Anyone who thinks a listing about them is wrong can appeal it with Rotector at <a href="https://rotector.com" target="_blank" rel="noopener">rotector.com</a>.</p>
+      <p>Rayward's terms say its data can't be kept for more than 24 hours. Collapse removes Rotector's reasons from cases after 24 hours, and checks Rotector again before any ban goes through. For the same reason, you may use what Collapse shows you only to moderate your own server. Don't copy, publish, sell or pass on Rotector data from Collapse, including the files <code>/detections</code> produces.</p>
+    </section>
+
+    <section id="terms-keys" data-reveal>
+      <h2>Your API keys</h2>
+      <p>Each server connects its own Rayward key, and optionally its own Bloxlink key. By adding a key you agree to that service's terms, including <a href="https://rayward.app/terms" target="_blank" rel="noopener">Rayward's terms</a>. Collapse stores keys encrypted and uses them only for your server's checks.</p>
+    </section>
+
+    <section id="terms-availability" data-reveal>
+      <h2>Availability and liability</h2>
+      <p>Collapse is provided as it is, without any guarantee that it will be available, accurate or suitable for your server. It depends on Discord, Rayward, Rotector, Bloxlink and Roblox, and stops working when they do. As far as the law allows, the Collapse team isn't liable for losses that come from using Collapse, from bans your moderators approve, or from errors in third-party data.</p>
+    </section>
+
+    <section id="terms-ending" data-reveal>
+      <h2>Stopping</h2>
+      <p>You can stop using Collapse at any time by removing it from your server. The Collapse team can stop Collapse working in a server that breaks these terms, or stop running Collapse altogether.</p>
+    </section>
+
+    <section id="terms-changes" data-reveal>
+      <h2>Changes and contact</h2>
+      <p>If these terms change, the new version goes on this page with a new date, and is announced in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a>. Continuing to use Collapse after that means you accept them. Questions go to the support server too.</p>
+    </section>
+  </article>
+</div>
+
+<!-- ============================== PRIVACY ============================== -->
+<div data-page="privacy" class="wrap">
+  <article class="doc legal">
+    <div data-reveal>
+      <h2 class="page-title">Privacy policy</h2>
+      <p class="lede">What Collapse collects about the members of the servers it's in and the people who run them, why, and who it's shared with. Last updated 1 October 2026.</p>
+    </div>
+
+    <section id="privacy-collect" data-reveal>
+      <h2>What Collapse collects</h2>
+      <p>About server members, when they're checked:</p>
+      <ul>
+        <li>their Discord user ID and server nickname;</li>
+        <li>the Roblox username and ID linked to them, found through Bloxlink or a <code>(@username)</code> nickname tag;</li>
+        <li>the result of the check, and for flagged accounts, Rotector's status and reasons;</li>
+        <li>if they're banned through Collapse: when, which moderator approved it, and whether the ban DM was delivered.</li>
+      </ul>
+      <p>About the people who set Collapse up and moderate with it: their Discord user ID next to the settings they change, the sweeps they start and the cases they decide.</p>
+      <p>About each server: its ID, the roles and channels chosen in <code>/config</code>, its Rayward and Bloxlink keys (stored encrypted), and its appeal link.</p>
+      <p>Collapse doesn't read messages. It only receives server and member information from Discord.</p>
+    </section>
+
+    <section id="privacy-use" data-reveal>
+      <h2>Why</h2>
+      <p>This information is used to run the checks a server's admins have set up, to show cases to its moderators, to stop the same account being checked or banned twice, to spot a banned Roblox account that returns on a new Discord account, and to keep a record of each ban and who approved it. It isn't used for anything else, and it isn't sold.</p>
+    </section>
+
+    <section id="privacy-share" data-reveal>
+      <h2>Who it's shared with</h2>
+      <ul>
+        <li>Rayward, which provides Rotector's data: the Roblox IDs being checked, sent with the server's own Rayward key. See <a href="https://rayward.app/privacy" target="_blank" rel="noopener">Rayward's privacy policy</a>.</li>
+        <li>Bloxlink, if the server added a Bloxlink key: the Discord user IDs of the members being checked, and the server's ID.</li>
+        <li>Roblox: the Roblox usernames and IDs Collapse looks up, to match names to IDs and fetch avatar pictures for cases.</li>
+        <li>Discord: cases, summaries and ban DMs are sent through Discord and appear in the channels the server chose.</li>
+      </ul>
+    </section>
+
+    <section id="privacy-keep" data-reveal>
+      <h2>How long it's kept</h2>
+      <p>Rotector's reasons and its full response are deleted after 24 hours, as Rayward's terms require. After that, Collapse keeps only the status name as part of its record of what happened, and removes the reasons from the case messages it posted.</p>
+      <p>Everything else is kept while Collapse is in the server, so that bans stay on record and ban evasion can still be spotted. When Collapse is removed from a server, that server's API keys are deleted straight away and everything else stored about the server is deleted 30 days later. If Collapse is added back within those 30 days the data is kept, but the keys have to be entered again.</p>
+    </section>
+
+    <section id="privacy-rights" data-reveal>
+      <h2>Your choices</h2>
+      <p>If you're a member of a server that uses Collapse, its moderators decide what happens to your account there, so contact them first. If Rotector has listed your Roblox account, appeal the listing with Rotector at <a href="https://rotector.com" target="_blank" rel="noopener">rotector.com</a>; the Collapse team can't change it.</p>
+      <p>To ask what Collapse holds about you, or to have it corrected, contact the Collapse team in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a>. On request we delete everything we hold about you, in every server, including any ban record, so a server's moderators will no longer have that record. Case messages already posted in a server's channels belong to that server, and its moderators can delete them. Server admins can ask in the same place for all of their server's data to be deleted sooner than 30 days.</p>
+      <p>Discord doesn't allow accounts for anyone under 13, and Collapse isn't meant for them.</p>
+    </section>
+
+    <section id="privacy-changes" data-reveal>
+      <h2>Changes and contact</h2>
+      <p>If this policy changes, the new version goes on this page with a new date, and is announced in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a>. Questions about privacy go there too.</p>
+    </section>
+  </article>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-about">
+        <a class="brand" href="#home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>collapse</a>
+        <p>Roblox screening for Discord communities.</p>
+      </div>
+      <nav aria-label="Product"><h2 class="foot-title">Product</h2><a href="#docs">Documentation</a><a href="#team">Team</a><a href="#support">Support</a><a href="https://discord.com/oauth2/authorize?client_id=1554192461587288237&amp;permissions=84996&amp;integration_type=0&amp;scope=bot+applications.commands">Add to Discord</a></nav>
+      <nav aria-label="Legal"><h2 class="foot-title">Legal</h2><a href="#terms">Terms of service</a><a href="#privacy">Privacy policy</a></nav>
+      <nav aria-label="Community"><h2 class="foot-title">Community</h2><a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">Support server</a></nav>
+    </div>
+    <p class="disclaimer">Uses Rotector data via Rayward. Not affiliated with Roblox or Discord.</p>
+    <p class="disclaimer">Made with <strong>human love</strong> by Fern</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

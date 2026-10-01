@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+  <!-- Stand-in for a Roblox avatar headshot (the real ones are transparent 150x150 PNGs). -->
+  <path d="M28 150c2-30 18-44 47-44s45 14 47 44z" fill="#52796F"/>
+  <path d="M60 104h30v12a15 15 0 0 1-30 0z" fill="#D9B38C"/>
+  <rect x="42" y="30" width="66" height="72" rx="20" fill="#E8C49C"/>
+  <path d="M42 56c0-18 12-30 33-30s33 12 33 30c-8-10-20-14-33-14s-25 4-33 14z" fill="#3A2F2A"/>
+  <circle cx="63" cy="66" r="4.5" fill="#231D1A"/>
+  <circle cx="87" cy="66" r="4.5" fill="#231D1A"/>
+  <path d="M64 82c6 6 16 6 22 0" fill="none" stroke="#231D1A" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

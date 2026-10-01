@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 512 512">
+  <title>Collapse</title>
+  <rect width="512" height="512" fill="#1F3D3A"/>
+  <!-- Five bars, Sand fading to Sage. Offset right of the bounding-box centre so the stack's visual
+       weight (which sits left, since the bars are left-aligned) lands in the middle, including under
+       Discord's circular avatar crop. -->
+  <g transform="translate(128 108)">
+    <rect x="0" y="0"   width="288" height="40" rx="20" fill="#E6DCC6"/>
+    <rect x="0" y="64"  width="240" height="40" rx="20" fill="#C7D0BB"/>
+    <rect x="0" y="128" width="192" height="40" rx="20" fill="#A8C3B0"/>
+    <rect x="0" y="192" width="144" height="40" rx="20" fill="#7D9E90"/>
+    <rect x="0" y="256" width="96"  height="40" rx="20" fill="#52796F"/>
+  </g>
+</svg>
