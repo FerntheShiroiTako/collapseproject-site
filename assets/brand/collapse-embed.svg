@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="480" viewBox="0 0 1360 480">
+  <!-- Collapse link-preview banner for embeds (og:image / twitter:image). The profile-banner waves with the
+       wordmark and logo in the calm top-left. Render to PNG for embeds; the text needs Geist installed or
+       loaded from Google Fonts. -->
+  <style>@import url('https://fonts.googleapis.com/css2?family=Geist:wght@600&amp;display=block');</style>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#244843"/>
+      <stop offset=".55" stop-color="#1F3D3A"/>
+      <stop offset="1" stop-color="#162D2A"/>
+    </linearGradient>
+    <radialGradient id="glowMint"><stop offset="0" stop-color="#A8C3B0" stop-opacity=".34"/><stop offset=".5" stop-color="#A8C3B0" stop-opacity=".12"/><stop offset="1" stop-color="#A8C3B0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowSage"><stop offset="0" stop-color="#52796F" stop-opacity=".4"/><stop offset="1" stop-color="#52796F" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowSand"><stop offset="0" stop-color="#E6DCC6" stop-opacity=".16"/><stop offset="1" stop-color="#E6DCC6" stop-opacity="0"/></radialGradient>
+    <linearGradient id="w1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#52796F" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#52796F" stop-opacity=".55"/>
+    </linearGradient>
+    <linearGradient id="w2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7D9E90" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#A8C3B0" stop-opacity=".6"/>
+    </linearGradient>
+    <linearGradient id="w3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#A8C3B0" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#E6DCC6" stop-opacity=".7"/>
+    </linearGradient>
+    <linearGradient id="w4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1F3D3A"/>
+      <stop offset="1" stop-color="#162D2A"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E6DCC6" stop-opacity="0"/>
+      <stop offset=".45" stop-color="#E6DCC6" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#E6DCC6" stop-opacity=".8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1360" height="480" fill="url(#bg)"/>
+
+  <!-- soft light -->
+  <ellipse cx="1120" cy="20" rx="520" ry="360" fill="url(#glowMint)"/>
+  <ellipse cx="760" cy="300" rx="380" ry="260" fill="url(#glowSage)"/>
+  <ellipse cx="1320" cy="380" rx="320" ry="240" fill="url(#glowSand)"/>
+
+  <!-- waves, back to front -->
+  <path d="M0 360 C 260 350 470 270 760 235 S 1180 90 1360 40 L1360 480 L0 480 Z" fill="url(#w1)"/>
+  <path d="M0 400 C 300 395 540 320 830 292 S 1210 175 1360 140 L1360 480 L0 480 Z" fill="url(#w2)"/>
+  <path d="M0 435 C 340 432 620 372 900 352 S 1240 262 1360 240 L1360 480 L0 480 Z" fill="url(#w3)"/>
+  <path d="M0 462 C 380 460 690 418 970 404 S 1270 340 1360 326 L1360 480 L0 480 Z" fill="url(#w4)"/>
+
+  <!-- fine crest lines -->
+  <g fill="none" stroke="url(#line)" stroke-linecap="round">
+    <path d="M0 360 C 260 350 470 270 760 235 S 1180 90 1360 40" stroke-width="2"/>
+    <path d="M0 400 C 300 395 540 320 830 292 S 1210 175 1360 140" stroke-width="2"/>
+    <path d="M0 435 C 340 432 620 372 900 352 S 1240 262 1360 240" stroke-width="2.5"/>
+    <path d="M0 380 C 280 372 505 295 795 263 S 1195 132 1360 90" stroke-width="1" opacity=".5"/>
+    <path d="M0 418 C 320 414 580 346 865 322 S 1225 218 1360 190" stroke-width="1" opacity=".5"/>
+  </g>
+  <!-- wordmark and logo -->
+  <text x="66" y="100" fill="#E6DCC6" font-family="Geist, system-ui, 'Segoe UI', sans-serif" font-weight="600"
+        font-size="90" letter-spacing="-2.7">collapse</text>
+  <g transform="translate(74 134)">
+    <rect x="0" y="0"  width="108" height="14" rx="7" fill="#E6DCC6"/>
+    <rect x="0" y="22" width="90"  height="14" rx="7" fill="#C7D0BB"/>
+    <rect x="0" y="44" width="72"  height="14" rx="7" fill="#A8C3B0"/>
+    <rect x="0" y="66" width="54"  height="14" rx="7" fill="#7D9E90"/>
+    <rect x="0" y="88" width="36"  height="14" rx="7" fill="#52796F"/>
+  </g>
+</svg>

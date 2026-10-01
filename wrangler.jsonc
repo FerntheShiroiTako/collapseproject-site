@@ -1,0 +1,19 @@
+{
+  // Must match the Worker's name in the Cloudflare dashboard when deploying through Workers Builds (git).
+  "name": "collapse-site",
+  "compatibility_date": "2026-10-01",
+  // Static assets only, no Worker script. Files listed in .assetsignore are not uploaded.
+  "assets": {
+    "directory": ".",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  // Serve on the real domain once it is on this Cloudflare account:
+  // "routes": [
+  //   { "pattern": "collapseproject.uk", "custom_domain": true },
+  //   { "pattern": "www.collapseproject.uk", "custom_domain": true }
+  // ],
+  "observability": { "enabled": true }
+}
