@@ -104,19 +104,11 @@ nav.links a:hover,nav.links a[aria-current="page"]{color:var(--ink)}
 
 /* ---------- pages + transitions ---------- */
 [data-page]{padding-block:clamp(40px,6vw,72px) clamp(72px,9vw,120px)}
-/* Every page is in the HTML, so it all reads without JavaScript. With it, only the current page shows. */
-.js:not(.routed) [data-page]{display:none}
-.js:not(.routed)[data-boot="home"] [data-page="home"],
-.js:not(.routed)[data-boot="docs"] [data-page="docs"],
-.js:not(.routed)[data-boot="team"] [data-page="team"],
-.js:not(.routed)[data-boot="support"] [data-page="support"],
-.js:not(.routed)[data-boot="terms"] [data-page="terms"],
-.js:not(.routed)[data-boot="privacy"] [data-page="privacy"]{display:block}
-.page-enter{animation:pageIn .6s var(--ease) both}
-@keyframes pageIn{from{opacity:0;transform:translateY(16px)}}
-html.page-vt .top{view-transition-name:top}
-html.page-vt::view-transition-old(root){animation:vtOut .3s cubic-bezier(.4,0,1,1) both}
-html.page-vt::view-transition-new(root){animation:vtIn .6s var(--ease) .06s both}
+/* Moving between pages fades the content while the header stays put (browsers without this just load the page) */
+@view-transition{navigation:auto}
+html:not(.theme-vt) .top{view-transition-name:top}
+html:not(.theme-vt)::view-transition-old(root){animation:vtOut .3s cubic-bezier(.4,0,1,1) both}
+html:not(.theme-vt)::view-transition-new(root){animation:vtIn .6s var(--ease) .06s both}
 @keyframes vtOut{to{opacity:0;transform:translateY(-10px)}}
 @keyframes vtIn{from{opacity:0;transform:translateY(18px)}}
 html.theme-vt::view-transition-old(root),html.theme-vt::view-transition-new(root){animation:none;mix-blend-mode:normal}
@@ -264,7 +256,7 @@ details p{padding-bottom:16px}
 
 /* ---------- team: a credits list ---------- */
 .page-head{max-width:700px;margin-bottom:clamp(28px,4vw,44px)}
-.page-head h2,.doc.legal .page-title{font-size:clamp(34px,4.4vw,48px);letter-spacing:-.035em;margin-bottom:14px}
+.page-head h1,.doc.legal .page-title{font-size:clamp(34px,4.4vw,48px);letter-spacing:-.035em;margin-bottom:14px}
 .credits{list-style:none;margin:0;padding:0;max-width:760px;border-top:1px solid var(--line-strong)}
 .credits li{display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:4px 24px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
 .credits h3{font-size:20px;align-self:end}

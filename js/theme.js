@@ -1,9 +1,10 @@
 // Loaded synchronously in <head>, before first paint:
-// - applies the saved theme, so there's no flash of the wrong one;
-// - records which page the URL asks for, so the CSS can show only that page until app.js takes over.
-// Without JavaScript neither happens, and every page is simply visible one after another.
+// - sends old one-page links like /#terms or /#docs-setup to their own page (/terms/, /docs/#docs-setup);
+// - applies the saved theme, so there's no flash of the wrong one.
+(function () {
+  const hash = location.hash.slice(1), page = hash.split('-')[0];
+  if (location.pathname === '/' && ['docs', 'team', 'support', 'terms', 'privacy'].includes(page))
+    location.replace('/' + page + '/' + (hash.includes('-') ? '#' + hash : ''));
+})();
 try { const t = localStorage.getItem('collapse-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-const root = document.documentElement;
-root.classList.add('js');
-const wanted = (location.hash || '#home').slice(1).split('-')[0];
-root.dataset.boot = ['home', 'docs', 'team', 'support', 'terms', 'privacy'].includes(wanted) ? wanted : 'home';
+document.documentElement.classList.add('js');

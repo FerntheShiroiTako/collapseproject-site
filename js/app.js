@@ -86,68 +86,25 @@
     };
     wrap(el);
     el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ' ').trim());
-  })($('hero-title'));
+  })($('hero-title') || document.createElement('h1'));
 
-  // ---------- router with view transitions ----------
-  const pages = $$('[data-page]');
-  const TITLES = { home: 'Collapse: Rotector checks for Discord servers', docs: 'Docs · Collapse', team: 'Team · Collapse',
-                   support: 'Add Collapse · Collapse', terms: 'Terms of service · Collapse', privacy: 'Privacy policy · Collapse' };
-  let current = null;
-  function show(hash, animate) {
-    const page = hash.split('-')[0];
-    const target = pages.some(p => p.dataset.page === page) ? page : 'home';
-    const section = hash.includes('-') ? $(hash) : null;
-
-    if (target === current) {           // same page: just glide to the section
-      if (section) scrollToY(section); else scrollToY(0);
-      return;
-    }
-    const apply = () => {
-      pages.forEach(p => {
-        const on = p.dataset.page === target;
-        if (on && !p.hidden) return;
-        p.hidden = !on;
-        if (on) $$('[data-reveal]', p).forEach(el => el.classList.remove('in'));
-      });
-      root.classList.add('routed');     // from here on the hidden attribute decides what's visible
-      current = target;
-      navLinks.forEach(a => a.dataset.link === target ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
-      if (lenis) lenis.resize();
-      scrollToY(0, true);
-      document.title = TITLES[target];
-    };
-    const after = () => {
-      requestAnimationFrame(() => placeLine(currentLink()));
-      if (section) setTimeout(() => scrollToY(section), 80);
-      updateToc();
-    };
-    if (animate && document.startViewTransition && !reduced) {
-      root.classList.add('page-vt');
-      const vt = document.startViewTransition(apply);
-      vt.finished.finally(() => { root.classList.remove('page-vt'); });
-      vt.updateCallbackDone.then(after);
-    } else {
-      apply();
-      if (animate && !reduced) {
-        const el = pages.find(p => p.dataset.page === target);
-        el.classList.remove('page-enter'); void el.offsetWidth; el.classList.add('page-enter');
-      }
-      after();
-    }
-  }
-  addEventListener('hashchange', () => show(location.hash.slice(1) || 'home', true));
-  // Re-clicking the current link (hash unchanged) still scrolls to it.
+  // ---------- in-page links glide to their section (and still do when re-clicked) ----------
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
-    if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); show(location.hash.slice(1), true); }
+    const section = a && $(a.getAttribute('href').slice(1));
+    if (!section) return;
+    e.preventDefault();
+    if (a.getAttribute('href') !== location.hash) history.pushState(null, '', a.getAttribute('href'));
+    scrollToY(section);
   });
+  addEventListener('popstate', () => { const s = location.hash && $(location.hash.slice(1)); scrollToY(s || 0); });
   addEventListener('resize', () => { placeLine(currentLink()); updateToc(); });
 
   // ---------- docs: scrollspy with a sliding marker ----------
-  const toc = $('toc');
-  const tocMarker = toc.querySelector('.toc-marker');
+  const toc = $('toc') || document.createElement('nav');
+  const tocMarker = toc.querySelector('.toc-marker') || document.createElement('span');
   const tocLinks = $$('a', toc);
-  let activeId = 'docs-overview';
+  let activeId = (location.hash.slice(1) && $(location.hash.slice(1))) ? location.hash.slice(1) : 'docs-overview';
   function updateToc() {
     tocLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + activeId));
     const on = toc.querySelector('a.on');
@@ -192,7 +149,8 @@
     try { navigator.clipboard.writeText(input.value).then(done, fallback); } catch (err) { fallback(); }
   }));
 
-  show(location.hash.slice(1) || 'home', false);
+  placeLine(currentLink());
+  updateToc();
 
   // Fonts change link widths, so measure again once they've loaded.
   if (document.fonts) document.fonts.ready.then(() => { placeLine(currentLink()); updateToc(); });
