@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Collapse: Rotector checks for Discord servers</title>
-<meta name="description" content="Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.">
+<title>Collapse: Roblox flag checks for Discord servers</title>
+<meta name="description" content="Collapse is a Discord bot that checks your members' Roblox accounts against every flag source on Rayward and posts every flagged account to your moderators, who decide whether to ban.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://collapseproject.uk/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Collapse">
-<meta property="og:title" content="Collapse: Rotector checks for Discord servers">
-<meta property="og:description" content="Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.">
+<meta property="og:title" content="Collapse: Roblox flag checks for Discord servers">
+<meta property="og:description" content="Collapse is a Discord bot that checks your members' Roblox accounts against every flag source on Rayward and posts every flagged account to your moderators, who decide whether to ban.">
 <meta property="og:url" content="https://collapseproject.uk/">
 <meta property="og:image" content="https://collapseproject.uk/assets/brand/collapse-embed.png">
 <meta property="og:image:width" content="1360">
 <meta property="og:image:height" content="480">
 <meta property="og:image:alt" content="The Collapse wordmark and logo over green waves">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Collapse: Rotector checks for Discord servers">
-<meta name="twitter:description" content="Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.">
+<meta name="twitter:title" content="Collapse: Roblox flag checks for Discord servers">
+<meta name="twitter:description" content="Collapse is a Discord bot that checks your members' Roblox accounts against every flag source on Rayward and posts every flagged account to your moderators, who decide whether to ban.">
 <meta name="twitter:image" content="https://collapseproject.uk/assets/brand/collapse-embed.png">
 <meta name="theme-color" content="#1F3D3A">
 <link rel="icon" href="/assets/brand/collapse-logo.svg" type="image/svg+xml">
@@ -36,7 +36,7 @@
  "applicationCategory": "UtilitiesApplication",
  "operatingSystem": "Discord",
  "url": "https://collapseproject.uk/",
- "description": "Collapse is a Discord bot that checks your members' Roblox accounts against Rotector and posts every flagged account to your moderators, who decide whether to ban.",
+ "description": "Collapse is a Discord bot that checks your members' Roblox accounts against every flag source on Rayward and posts every flagged account to your moderators, who decide whether to ban.",
  "image": "https://collapseproject.uk/assets/brand/collapse-logo.png"
 }
 </script>
@@ -69,7 +69,7 @@
   <div class="hero">
     <div class="hero-copy">
       <h1 id="hero-title">Roblox screening that stays inside Discord.</h1>
-      <p class="lede fade-up" style="--d:.6s">Collapse checks each member's Roblox account against Rotector. It finds the account through Bloxlink or the username in their nickname, posts anything flagged to your moderation channel, and leaves the decision to a moderator.</p>
+      <p class="lede fade-up" style="--d:.6s">Collapse checks each member's Roblox account against every flag source on Rayward: Rotector, RCR, TASE, RAB, Okappiki and ServerSweep. It finds the account through Bloxlink or the username in their nickname, posts anything flagged to your moderation channel, and leaves the decision to a moderator.</p>
       <div class="cta-row fade-up" style="--d:.75s">
         <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1554192461587288237&amp;permissions=84996&amp;integration_type=0&amp;scope=bot+applications.commands">Add Collapse to your server <span class="arrow">→</span></a>
         <a class="btn btn-ghost" href="/docs/">Read the guide</a>
@@ -86,7 +86,7 @@
     <header><h2>What happens when a member joins</h2></header>
     <ol class="steps">
       <li><h3>Find the member's Roblox account</h3><p>If they've verified through Bloxlink, Collapse uses that account. Otherwise it reads the Roblox username at the end of their nickname, written as <code>(@username)</code>.</p></li>
-      <li><h3>Check the account</h3><p>Collapse sends it to Rotector using your server's own Rayward key. It also checks whether Collapse already banned the same Roblox account here under another Discord account.</p></li>
+      <li><h3>Check the account</h3><p>Collapse looks it up on all six Rayward sources using your server's own Rayward key. A flag from any of them counts. It also checks whether Collapse already banned the same Roblox account here under another Discord account.</p></li>
       <li><h3>Show it to a mod</h3><p>Anything flagged is posted in your mod channel with Ban and Dismiss buttons. Only your mod role can press them.</p></li>
     </ol>
   </section>
@@ -97,12 +97,12 @@
     <table class="spec">
       <tbody>
         <tr><th scope="row">Account lookup</th><td>Bloxlink verification when the server adds a Bloxlink key, otherwise the <code>(@username)</code> tag in the nickname.</td></tr>
-        <tr><th scope="row">Screening</th><td>Rotector flag data through the Rayward API, with batched lookups and retries that wait longer each time.</td></tr>
+        <tr><th scope="row">Screening</th><td>Every source on the Rayward API (Rotector, RCR, TASE, RAB, Okappiki and ServerSweep), with batched lookups and retries that wait longer each time.</td></tr>
         <tr><th scope="row">Ban evasion</th><td>Matches a member's Roblox account against the bans Collapse made in your server.</td></tr>
         <tr><th scope="row">Review</th><td>Cases in a channel you choose, with Ban and Dismiss buttons that only the mod role can press.</td></tr>
         <tr><th scope="row">Sweeps</th><td><code>/sweep start</code> checks every member. It carries on after a restart and stays inside Bloxlink's daily limit.</td></tr>
         <tr><th scope="row">Records</th><td>A summary channel for sweeps, an optional forum with one thread per detection, and a CSV export from <code>/detections</code>.</td></tr>
-        <tr><th scope="row">Storage</th><td>SQLite, with API keys encrypted. Rotector's reasons are deleted after 24 hours, and everything else 30 days after it was last updated.</td></tr>
+        <tr><th scope="row">Storage</th><td>SQLite, with API keys encrypted. Flag reasons are deleted after 24 hours, and everything else 30 days after it was last updated.</td></tr>
       </tbody>
     </table>
   </section>
@@ -112,9 +112,9 @@
       <h2>Collapse will</h2>
       <ul>
         <li>Post every flagged account to your mod channel.</li>
-        <li>Check Rotector again when a mod presses Ban.</li>
+        <li>Check every source again when a mod presses Ban.</li>
         <li>Retry failed lookups, then post the member as Unverified.</li>
-        <li>Delete Rotector's reasons after 24 hours.</li>
+        <li>Delete flag reasons after 24 hours.</li>
         <li>Record each ban and the mod who approved it.</li>
       </ul>
     </div>
@@ -124,7 +124,7 @@
         <li>Ban anyone unless a mod presses Ban.</li>
         <li>Ban while dry run is on, which it is on every new server.</li>
         <li>Call an unflagged account safe.</li>
-        <li>Keep Rotector's reasons past 24 hours.</li>
+        <li>Keep flag reasons past 24 hours.</li>
       </ul>
     </div>
   </section>
@@ -159,7 +159,7 @@
       <nav aria-label="Legal"><h2 class="foot-title">Legal</h2><a href="/terms/">Terms of service</a><a href="/privacy/">Privacy policy</a></nav>
       <nav aria-label="Community"><h2 class="foot-title">Community</h2><a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">Support server</a></nav>
     </div>
-    <p class="disclaimer">Uses Rotector data via Rayward. Not affiliated with Roblox or Discord.</p>
+    <p class="disclaimer">Uses flag data from Rotector, RCR, TASE, RAB, Okappiki and ServerSweep via Rayward. Not affiliated with Roblox or Discord.</p>
     <p class="disclaimer">Made with <strong>human love</strong> by Fern</p>
   </div>
 </footer>

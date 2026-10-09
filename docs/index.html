@@ -54,7 +54,7 @@
    "name": "A mod pressed Ban and the member is still here.",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Check whether dry run is still on, and read the reply the mod got: Rotector may no longer flag the account, or may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members."
+    "text": "Check whether dry run is still on, and read the reply the mod got: no source may flag the account any more, or a source may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members."
    }
   },
   {
@@ -62,12 +62,12 @@
    "name": "A member says their flag is wrong.",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Collapse repeats what Rotector's database says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing at rotector.com. If you've set an appeal link, their ban DM already pointed them to you."
+    "text": "Collapse repeats what the source that flagged them says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing with that source, which their ban DM names and links. If you've set an appeal link, their ban DM already pointed them to you."
    }
   },
   {
    "@type": "Question",
-   "name": "What if Rotector or Bloxlink is down?",
+   "name": "What if Rayward, a source or Bloxlink is down?",
    "acceptedAnswer": {
     "@type": "Answer",
     "text": "Collapse keeps trying for about 15 minutes. After that, the members it couldn't check are posted as Unverified so your mods can look at them."
@@ -140,12 +140,12 @@
     <article class="doc">
       <div data-reveal>
         <h1>Documentation and FAQ</h1>
-        <p class="lede">Collapse checks the Roblox account behind each member of your server against Rotector and posts the ones Rotector has flagged to your mod channel. Your mods decide what happens to each one.</p>
+        <p class="lede">Collapse checks the Roblox account behind each member of your server against every flag source on Rayward (Rotector, RCR, TASE, RAB, Okappiki and ServerSweep) and posts the ones any of them has flagged to your mod channel. Your mods decide what happens to each one.</p>
       </div>
 
       <section id="docs-overview" data-reveal>
         <h2>What you need</h2>
-        <p>Before you start, get a Rayward API key by signing in at <a href="https://rayward.app/signin" target="_blank" rel="noopener">rayward.app</a>. Collapse uses it to look accounts up on Rotector, and each server uses its own key.</p>
+        <p>Before you start, get a Rayward API key by signing in at <a href="https://rayward.app/signin" target="_blank" rel="noopener">rayward.app</a>. Collapse uses it to look accounts up on all of Rayward's sources: Rotector, RCR, TASE, RAB, Okappiki and ServerSweep. Each server uses its own key.</p>
         <p>A Bloxlink server key is optional. You can create one on the <a href="https://blox.link/dashboard/developers" target="_blank" rel="noopener">Bloxlink developer dashboard</a>. With it, Collapse can use the Roblox account a member verified through Bloxlink. Without it, Collapse can only find accounts through nickname tags like <code>owl (@example_user)</code>.</p>
         <p>You'll also want a role for the moderators who decide cases, and a channel where the cases should appear.</p>
       </section>
@@ -167,20 +167,20 @@
 
       <section id="docs-cases" data-reveal>
         <h2>Handling a case</h2>
-        <p>Each flagged account is posted in your mod channel as a case, like the example on the home page. It shows the member, their Roblox account, Rotector's status, whether the account came from Bloxlink or a nickname tag, and Rotector's reasons when it gives any.</p>
+        <p>Each flagged account is posted in your mod channel as a case, like the example on the home page. It shows the member, their Roblox account, which source flagged it and with what status, any other sources that flag it too, whether the account came from Bloxlink or a nickname tag, and the source's reasons when it gives any.</p>
         <p>Only members with your mod role can press the buttons:</p>
         <ul>
-          <li>Ban first looks the account up on Rotector again. If it's still flagged, Collapse sends the member the ban DM, if it's on, then bans them and records who approved it. If Rotector no longer flags the account, nobody is banned and the case closes. If Rotector can't be reached, nothing happens and the case stays open.</li>
+          <li>Ban first looks the account up on every source again. If any source still flags it, Collapse sends the member the ban DM, if it's on, then bans them and records who approved it. If none of them flags the account any more, nobody is banned and the case closes. If a source can't be reached, nothing happens and the case stays open.</li>
           <li>Dismiss closes the case and does nothing to the member.</li>
         </ul>
         <p>Either way the buttons are removed and the case is marked resolved, with the mod who decided it. While dry run is on, Ban records what would have happened. Nobody is banned and no DM is sent.</p>
-        <p>Rayward's terms don't allow its data to be kept for more than 24 hours, so after 24 hours Collapse removes the Details field (Rotector's reasons) from the case. The rest of the case stays.</p>
+        <p>Rayward's terms don't allow its data to be kept for more than 24 hours, so after 24 hours Collapse removes the Details field (the source's reasons) from the case. The rest of the case stays.</p>
         <h3>Case colours</h3>
         <div class="tbl"><table>
           <thead><tr><th>Colour</th><th>Meaning</th></tr></thead>
           <tbody>
-            <tr><td><span class="chip"><i style="background:#E6DCC6"></i>Sand</span></td><td>Rotector Confirmed, or ban evasion</td></tr>
-            <tr><td><span class="chip"><i style="background:#A8C3B0"></i>Mint</span></td><td>Flagged by Rotector for any other reason and waiting for a decision</td></tr>
+            <tr><td><span class="chip"><i style="background:#E6DCC6"></i>Sand</span></td><td>Confirmed by any source, or ban evasion</td></tr>
+            <tr><td><span class="chip"><i style="background:#A8C3B0"></i>Mint</span></td><td>Flagged by any source for any other reason and waiting for a decision</td></tr>
             <tr><td><span class="chip"><i style="background:#52796F"></i>Sage</span></td><td>Unverified: Collapse couldn't finish the lookups, so check this member yourself</td></tr>
             <tr><td><span class="chip"><i style="background:#3A2F2A"></i>Umber</span></td><td>Past offender, for information only</td></tr>
             <tr><td><span class="chip"><i style="background:#1F3D3A"></i>Pine</span></td><td>Resolved</td></tr>
@@ -193,13 +193,13 @@
         <p>Collapse checks a member when they join, when a sweep reaches them, and when a mod runs <code>/check</code> on them.</p>
         <p>First it finds their Roblox account. A Bloxlink verification is used if you've added a Bloxlink key and the member has one. If not, Collapse reads the <code>(@username)</code> tag at the end of their server nickname. A member with neither is skipped.</p>
         <p>Next, if Collapse banned that Roblox account in your server in the last 30 days under a different Discord account, the member goes straight to your mods as ban evasion. Bans made outside Collapse don't count here, because Collapse only knows about the bans it made, and it deletes its ban records after 30 days.</p>
-        <p>Otherwise Collapse looks the account up on Rotector:</p>
+        <p>Otherwise Collapse looks the account up on all six sources and acts on the most serious answer. A flag from any source goes to your mods, and a source that couldn't answer means the member is tried again, even if the others say unflagged.</p>
         <div class="tbl"><table>
-          <thead><tr><th>Rotector says</th><th>Collapse does</th></tr></thead>
+          <thead><tr><th>Most serious answer</th><th>Collapse does</th></tr></thead>
           <tbody>
             <tr><td>Unflagged</td><td>Nothing</td></tr>
             <tr><td>Confirmed</td><td>Posts a case</td></tr>
-            <tr><td>Flagged, Mixed, Queued, Provisional, Redacted</td><td>Posts a case</td></tr>
+            <tr><td>Flagged, Mixed, Queued, Provisional, Redacted, Awaiting Human Review</td><td>Posts a case</td></tr>
             <tr><td>Past Offender</td><td>Records it without posting anything, unless report only is on</td></tr>
           </tbody>
         </table></div>
@@ -208,7 +208,7 @@
 
       <section id="docs-sweeps" data-reveal>
         <h2>Sweeps</h2>
-        <p>A sweep checks every member of your server, which is useful after setup or after Rotector adds new flags. Your sweep triggers start one with <code>/sweep start</code>.</p>
+        <p>A sweep checks every member of your server, which is useful after setup or after the sources add new flags. Your sweep triggers start one with <code>/sweep start</code>.</p>
         <p>Each server runs one sweep at a time. <code>/sweep status</code> shows how far it has got, <code>/sweep abort</code> stops it, and <code>/sweep resume</code> restarts one that was paused. If the bot restarts during a sweep, the sweep continues on its own afterwards.</p>
         <p>Every Bloxlink key can make 2,000 lookups a day. A sweep stops short of that so that members who join later in the day can still be checked, and if it runs out it pauses until midnight UTC. Sweep notices like this one go to your summary channel, or the mod channel if you haven't set one. On big servers a sweep can take more than one day, and Collapse tells you at the start when it will.</p>
         <p>When a sweep finishes, the summary goes to your summary channel (or the mod channel if you haven't set one), and by DM to whoever started it:</p>
@@ -217,14 +217,15 @@ Not flagged: 1120
 No linked account: 87
 Past offender: 4
 Sent to review: 21
-Unverified: 2</pre>
+Unverified: 2
+Rotector, RCR, TASE, RAB, Okappiki and ServerSweep via Rayward</pre>
         <p>Sweeps only open cases. Each ban still needs a mod to press Ban.</p>
       </section>
 
       <section id="docs-records" data-reveal>
         <h2>Lists and logs</h2>
         <p><code>/reviews</code> lists the cases that are still open, ten per page. <code>/detections</code> lists everything Collapse has detected in your server in the last 30 days, resolved or not. You can get it as a CSV file to open in a spreadsheet, or as a list of Roblox usernames.</p>
-        <p>Collapse deletes its own records 30 days after they were last updated. For a record that stays put, choose a forum channel as the detection log under <code>/config</code> → More Settings. Every detection gets its own thread there, and later decisions don't change it. The threads leave out Rotector's reasons, because Collapse can't go back and remove them after 24 hours. If the forum has tags, Detection Log Tags lets you pick one for each kind of detection.</p>
+        <p>Collapse deletes its own records 30 days after they were last updated. For a record that stays put, choose a forum channel as the detection log under <code>/config</code> → More Settings. Every detection gets its own thread there, and later decisions don't change it. The threads leave out the sources' reasons, because Collapse can't go back and remove them after 24 hours. If the forum has tags, Detection Log Tags lets you pick one for each kind of detection.</p>
       </section>
 
       <section id="docs-modes" data-reveal>
@@ -239,7 +240,7 @@ Unverified: 2</pre>
             <tr><td>DM Sweep Starter</td><td>On</td><td>Whoever started a sweep gets its summary by DM.</td></tr>
           </tbody>
         </table></div>
-        <p>The ban DM names the server, the member's Roblox account and its Rotector status, and says they can appeal the listing with Rotector. A ban for ban evasion gets a different DM that doesn't mention Rotector, because that ban comes from Collapse's own records. If a member has DMs closed, they're banned anyway.</p>
+        <p>The ban DM names the server, the member's Roblox account, the source that flags it and its status, and links to where they can appeal with that source. Ban checks again first, so the DM names the source that flags the account at that moment. A ban for ban evasion gets a different DM that doesn't name a source, because that ban comes from Collapse's own records. If a member has DMs closed, they're banned anyway.</p>
         <p>To give members somewhere to appeal to you, add an appeal link under <code>/config</code> → More Settings → Appeal Link. It can be an appeals server invite such as <code>discord.gg/yourappeals</code>, or a form. The ban DM then ends with "You can appeal this ban here:" followed by your link. Clear the box to remove it.</p>
       </section>
 
@@ -280,9 +281,9 @@ Unverified: 2</pre>
         <h2>Questions</h2>
         <details><summary>Can Collapse ban someone without a mod?<span class="plus" aria-hidden="true"></span></summary><p>No. Collapse has no automatic bans and no setting to turn them on.</p></details>
         <details><summary>Nothing happens when people join.<span class="plus" aria-hidden="true"></span></summary><p>Run <code>/config</code> and check that the Rayward key, mod role, mod channel and a sweep trigger are all set, then click Test &amp; Finish to see what's failing. Members without a Bloxlink verification or a <code>(@username)</code> nickname tag are skipped.</p></details>
-        <details><summary>A mod pressed Ban and the member is still here.<span class="plus" aria-hidden="true"></span></summary><p>Check whether dry run is still on, and read the reply the mod got: Rotector may no longer flag the account, or may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members.</p></details>
-        <details><summary>A member says their flag is wrong.<span class="plus" aria-hidden="true"></span></summary><p>Collapse repeats what Rotector's database says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing at <a href="https://rotector.com" target="_blank" rel="noopener">rotector.com</a>. If you've set an appeal link, their ban DM already pointed them to you.</p></details>
-        <details><summary>What if Rotector or Bloxlink is down?<span class="plus" aria-hidden="true"></span></summary><p>Collapse keeps trying for about 15 minutes. After that, the members it couldn't check are posted as Unverified so your mods can look at them.</p></details>
+        <details><summary>A mod pressed Ban and the member is still here.<span class="plus" aria-hidden="true"></span></summary><p>Check whether dry run is still on, and read the reply the mod got: no source may flag the account any more, or a source may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members.</p></details>
+        <details><summary>A member says their flag is wrong.<span class="plus" aria-hidden="true"></span></summary><p>Collapse repeats what the source that flagged them says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing with that source, which their ban DM names and links. If you've set an appeal link, their ban DM already pointed them to you.</p></details>
+        <details><summary>What if Rayward, a source or Bloxlink is down?<span class="plus" aria-hidden="true"></span></summary><p>Collapse keeps trying for about 15 minutes. After that, the members it couldn't check are posted as Unverified so your mods can look at them.</p></details>
         <details><summary>What happens to my data if I remove Collapse?<span class="plus" aria-hidden="true"></span></summary><p>Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. Even while Collapse is in your server, it deletes cases, ban records and logs 30 days after they were last updated. You can ask in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a> to have it deleted sooner.</p></details>
         <details><summary>Can Collapse see IP addresses?<span class="plus" aria-hidden="true"></span></summary><p>No. Discord doesn't give bots IP addresses. Collapse spots ban evasion by matching Roblox accounts.</p></details>
       </section>
@@ -302,7 +303,7 @@ Unverified: 2</pre>
       <nav aria-label="Legal"><h2 class="foot-title">Legal</h2><a href="/terms/">Terms of service</a><a href="/privacy/">Privacy policy</a></nav>
       <nav aria-label="Community"><h2 class="foot-title">Community</h2><a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">Support server</a></nav>
     </div>
-    <p class="disclaimer">Uses Rotector data via Rayward. Not affiliated with Roblox or Discord.</p>
+    <p class="disclaimer">Uses flag data from Rotector, RCR, TASE, RAB, Okappiki and ServerSweep via Rayward. Not affiliated with Roblox or Discord.</p>
     <p class="disclaimer">Made with <strong>human love</strong> by Fern</p>
   </div>
 </footer>
