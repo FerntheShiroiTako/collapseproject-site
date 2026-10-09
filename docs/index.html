@@ -78,7 +78,7 @@
    "name": "What happens to my data if I remove Collapse?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. You can ask in the support server to have it deleted sooner."
+    "text": "Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. Even while Collapse is in your server, it deletes cases, ban records and logs 30 days after they were last updated. You can ask in the support server to have it deleted sooner."
    }
   },
   {
@@ -192,7 +192,7 @@
         <h2>How members are checked</h2>
         <p>Collapse checks a member when they join, when a sweep reaches them, and when a mod runs <code>/check</code> on them.</p>
         <p>First it finds their Roblox account. A Bloxlink verification is used if you've added a Bloxlink key and the member has one. If not, Collapse reads the <code>(@username)</code> tag at the end of their server nickname. A member with neither is skipped.</p>
-        <p>Next, if Collapse has already banned that Roblox account in your server under a different Discord account, the member goes straight to your mods as ban evasion. Bans made outside Collapse don't count here, because Collapse only knows about the bans it made.</p>
+        <p>Next, if Collapse banned that Roblox account in your server in the last 30 days under a different Discord account, the member goes straight to your mods as ban evasion. Bans made outside Collapse don't count here, because Collapse only knows about the bans it made, and it deletes its ban records after 30 days.</p>
         <p>Otherwise Collapse looks the account up on Rotector:</p>
         <div class="tbl"><table>
           <thead><tr><th>Rotector says</th><th>Collapse does</th></tr></thead>
@@ -223,8 +223,8 @@ Unverified: 2</pre>
 
       <section id="docs-records" data-reveal>
         <h2>Lists and logs</h2>
-        <p><code>/reviews</code> lists the cases that are still open, ten per page. <code>/detections</code> lists everything Collapse has ever detected in your server, resolved or not. You can get it as a CSV file to open in a spreadsheet, or as a list of Roblox usernames.</p>
-        <p>For a record that stays put, choose a forum channel as the detection log under <code>/config</code> → More Settings. Every detection gets its own thread there, and later decisions don't change it. The threads leave out Rotector's reasons, because Collapse can't go back and remove them after 24 hours. If the forum has tags, Detection Log Tags lets you pick one for each kind of detection.</p>
+        <p><code>/reviews</code> lists the cases that are still open, ten per page. <code>/detections</code> lists everything Collapse has detected in your server in the last 30 days, resolved or not. You can get it as a CSV file to open in a spreadsheet, or as a list of Roblox usernames.</p>
+        <p>Collapse deletes its own records 30 days after they were last updated. For a record that stays put, choose a forum channel as the detection log under <code>/config</code> → More Settings. Every detection gets its own thread there, and later decisions don't change it. The threads leave out Rotector's reasons, because Collapse can't go back and remove them after 24 hours. If the forum has tags, Detection Log Tags lets you pick one for each kind of detection.</p>
       </section>
 
       <section id="docs-modes" data-reveal>
@@ -283,7 +283,7 @@ Unverified: 2</pre>
         <details><summary>A mod pressed Ban and the member is still here.<span class="plus" aria-hidden="true"></span></summary><p>Check whether dry run is still on, and read the reply the mod got: Rotector may no longer flag the account, or may not have answered. If none of those, Collapse's role is probably below the member's highest role, or Collapse doesn't have Ban Members.</p></details>
         <details><summary>A member says their flag is wrong.<span class="plus" aria-hidden="true"></span></summary><p>Collapse repeats what Rotector's database says and can't change it. Your mods can unban them in Discord, and the member can appeal the listing at <a href="https://rotector.com" target="_blank" rel="noopener">rotector.com</a>. If you've set an appeal link, their ban DM already pointed them to you.</p></details>
         <details><summary>What if Rotector or Bloxlink is down?<span class="plus" aria-hidden="true"></span></summary><p>Collapse keeps trying for about 15 minutes. After that, the members it couldn't check are posted as Unverified so your mods can look at them.</p></details>
-        <details><summary>What happens to my data if I remove Collapse?<span class="plus" aria-hidden="true"></span></summary><p>Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. You can ask in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a> to have it deleted sooner.</p></details>
+        <details><summary>What happens to my data if I remove Collapse?<span class="plus" aria-hidden="true"></span></summary><p>Your API keys are deleted straight away, and everything else Collapse stored about your server is deleted 30 days later. Even while Collapse is in your server, it deletes cases, ban records and logs 30 days after they were last updated. You can ask in the <a href="https://discord.gg/7HytBQUggw" target="_blank" rel="noopener">support server</a> to have it deleted sooner.</p></details>
         <details><summary>Can Collapse see IP addresses?<span class="plus" aria-hidden="true"></span></summary><p>No. Discord doesn't give bots IP addresses. Collapse spots ban evasion by matching Roblox accounts.</p></details>
       </section>
     </article>
